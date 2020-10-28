@@ -1,7 +1,7 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <!-- <a class="navbar-brand" href="#">TEST</a>
-    <button
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="#">4Pic1Cy</a>
+    <!-- <button
       @click="load"
       class="navbar-toggler"
       type="button"
@@ -12,19 +12,19 @@
       aria-label="Toggle navigation"
     >
       <span class="navbar-toggler-icon"></span>
-    </button>-->
+    </button> -->
 
-    <button
+    <!-- <button
       @click="load"
     >
      test
-    </button>
+    </button>-->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
           <a class="nav-link" href="#">
             Home
-            {{users}}
+            <!-- {{users}} -->
             <span class="sr-only">(current)</span>
           </a>
         </li>
@@ -51,6 +51,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.navbar {
+  background-color: #401f7c;
+}
+.navbar a {
+  
+  color:white;
+  font-weight:bolder
+}
 h3 {
   margin: 40px 0 0;
 }
