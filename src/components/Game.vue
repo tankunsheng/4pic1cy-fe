@@ -9,20 +9,21 @@
       <img class="question-pic col-md-2" v-bind:src="pictures.fourth" />
     </div>
     <div class="row">
-      <form class="question-pic offset-md-4 col-md-4" >
+      <form class="question-pic offset-md-4 col-md-4">
         <div class="form-group">
-          <input style='font-size: 26px; text-align:center'
+          <input
+            style="font-size: 26px; text-align:center"
             type="text"
             class="form-control"
             maxlength="4"
             placeholder="_ _ _ _"
             v-model="answer"
           />
-         
-          <small> {{answer}}This is simple. Make a guess come'on</small>
+
+          <small>{{answer}}This is simple. Make a guess come'on</small>
         </div>
 
-        <button type="submit" class="btn btn-primary">SUBMIT</button>
+        <button type="button" class="btn btn-primary" @click="submitAnswer">SUBMIT</button>
       </form>
     </div>
   </div>
@@ -40,9 +41,10 @@ export default {
       first: "",
       second: "",
       third: "",
-      fourth: ""
+      fourth: "",
+      qId: ""
     };
-    const answer = ""
+    const answer = "";
     return {
       user,
       authInfo,
@@ -57,10 +59,24 @@ export default {
       });
       const singleQuestion = JSON.parse(res.body);
       this.pictures.first = s3.bucket + singleQuestion.image1;
-      console.log(singleQuestion)
+      console.log(singleQuestion);
       this.pictures.second = s3.bucket + singleQuestion.image2;
       this.pictures.third = s3.bucket + singleQuestion.image3;
       this.pictures.fourth = s3.bucket + singleQuestion.image4;
+      this.pictures.qId = singleQuestion.qId;
+    },
+    submitAnswer: async function() {
+      console.log(this.answer);
+      const payload = {
+        token: this.authInfo.id_token,
+        qId: this.pictures.qId,
+        answer: this.answer
+      };
+      console.log(payload);
+      const result = await API.post("4Pic1Cy", "/questions", {
+        body: payload
+      });
+      console.log(result);
     }
   },
   mounted() {

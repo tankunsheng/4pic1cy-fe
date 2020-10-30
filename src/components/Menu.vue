@@ -30,9 +30,9 @@
         <b>(done)</b>
       </p>
       <p>Fetch 1 question from backend <b>(done)</b></p>
-      <p>Start game and display 1 question (done)</p>
-      <p>Submit answer and check in backend (doing)</p>
-      <p>Cycle questions</p>
+      <p>Start game and display 1 question <b>(done)</b></p>
+      <p>Submit answer and check in backend <b>(done)</b></p>
+      <p>Cycle questions <b>(doing)</b></p>
       <p>Submit highscore (after google login)</p>
       <p>Store progress in Cookie (without sign in)</p>
       
