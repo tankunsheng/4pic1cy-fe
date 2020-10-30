@@ -1,5 +1,4 @@
 <template>
-  <!-- {{users}} -->
   <div id="menu-container">
     <div class="menu-sections">
       <img
@@ -9,7 +8,10 @@
         alt="...ds"
       />
       <p>4Pic1Cy, also known as 4 Pictures 1 Cheng Yu, is a pictorial word guessing game much like the famous 4Pic1Word games.</p>
-      <button type="button" class="btn menu-btn btn-lg">Start</button>
+
+      <router-link to="/game">
+        <button type="button" class="btn menu-btn btn-lg">Start</button>
+      </router-link>
       <br />
       <button type="button" class="btn menu-btn btn-lg">Highscores</button>
       <br />
@@ -17,65 +19,69 @@
     </div>
     <hr />
     <div class="menu-sections">
+      <input v-model="user.Ca" placeholder="edit me">
       <h1>TODOs</h1>
       <p>
         Google Login
-        <b>(doing)</b>
+        <b>(done)</b>
       </p>
       <p>
         Setup and deploy basic backend
         <b>(done)</b>
       </p>
-      <p>Fetch questions from backend</p>
-      <p>Start game and display 1 question</p>
-      <p>Store progress in Cookie (without sign in)</p>
-      <p>Submit highscore (after google login)</p>
+      <p>Fetch 1 question from backend <b>(done)</b></p>
+      <p>Start game and display 1 question (done)</p>
+      <p>Submit answer and check in backend (doing)</p>
       <p>Cycle questions</p>
+      <p>Submit highscore (after google login)</p>
+      <p>Store progress in Cookie (without sign in)</p>
+      
+      
     </div>
   </div>
 </template>
 
 <script>
-import userUsers from "./state/users.js";
+import userUsers from "../state/users.js";
 import { API } from "aws-amplify";
 function register(token) {
   return API.put("4Pic1Cy", "/players", {
     body: token
   });
 }
-async function testget(token) {
-  let test = await API.post("4Pic1Cy", "/questions/player", {
-    body: token
-  });
-  console.log(test);
-}
 export default {
   data() {
-    const { users } = userUsers();
+    const { user, setUser } = userUsers();
     return {
-      users
+      user,
+      setUser
     };
   },
   methods: {
-    onChui: () => {
-      console.log(this);
-      this.number = Math.random();
-    },
-    onSignIn: googleUser => {
-      var profile = googleUser.getBasicProfile();
-      console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
-      console.log("Name: " + profile.getName());
-      console.log("Image URL: " + profile.getImageUrl());
-      console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
+    onSignIn: function(googleUser){
+      // var profile = googleUser.getBasicProfile();
+      // console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+      // console.log("Name: " + profile.getName());
+      // console.log("Image URL: " + profile.getImageUrl());
+      // console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
 
       //https://developers.google.com/identity/sign-in/web/backend-auth
       //https://stackoverflow.com/questions/53622075/what-prevents-another-app-from-stealing-my-google-oauth-client-id
       // The ID token you need to pass to your backend:
-      var token = googleUser.getAuthResponse().id_token;
-      console.log("ID Token: " + token);
-
+      const token = googleUser.getAuthResponse().id_token;
+      // console.log("ID Token: " + token);
+      // console.log(googleUser.getAuthResponse().expires_in);
+      console.log(token)
       register({ token });
-      testget({ token });
+      // testget({ token });
+      // googleUser.reloadAuthResponse().then(test => {
+      //   console.log(test.id_token);
+      //   console.log(test.expires_in);
+      // });
+      // this.users.googleUser = googleUser
+      // console.log(this.users.googleUser);
+      console.log(this.user)
+      this.setUser(googleUser, googleUser.getAuthResponse())
     }
   },
   mounted() {
@@ -93,6 +99,7 @@ export default {
         onsuccess: this.onSignIn
       });
     });
+    // console.log(this.users);
   }
 };
 </script>

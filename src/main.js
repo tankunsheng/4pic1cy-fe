@@ -1,9 +1,8 @@
 import { createApp } from 'vue'
-import Menu from './Menu.vue'
-import Nav from './components/Navbar.vue'
+import Main from './Main.vue'
 import { Amplify } from 'aws-amplify';
 import { apiGateway } from './config.js';
-
+import router from "./router";
 Amplify.configure({
   API: {
     endpoints: [
@@ -16,6 +15,6 @@ Amplify.configure({
   }
 });
 
-
-createApp(Nav).mount('#navbar')
-createApp(Menu).mount('#app')
+const app = createApp(Main)
+app.use(router)
+app.mount('#app')

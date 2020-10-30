@@ -1,25 +1,27 @@
 import { reactive, toRefs } from "vue"
-// import { reactive } from "vue"
 
 const state = reactive({
-    users: ["test"]
+    user: {},
+    authInfo: ""
 })
 export default function userUsers() {
-    const load = async () => {
-        try {
-            const users = await new Promise((resolve) => {
-                setInterval(() => {
-                    resolve(["user1, user2"])
-                }, 2000)
+    // const load = async () => {
+    //     try {
+    //         const users = await new Promise((resolve) => {
+    //             setInterval(() => {
+    //                 resolve(["user1, user2"])
+    //             }, 2000)
 
-            })
-            console.log(users)
-            state.users = users
-        } catch (e) {
-            console.log(e)
-        }
-
+    //         })
+    //         console.log(users)
+    //         state.users = users
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+    // }
+    const setUser = (googleUser, authInfo) =>{
+        state.user = googleUser,
+        state.authInfo = authInfo
     }
-    return { ...toRefs(state), load }
-    // return { ...state, load }
+    return { ...toRefs(state), setUser }
 }
