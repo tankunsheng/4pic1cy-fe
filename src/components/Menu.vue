@@ -2,17 +2,17 @@
 <template>
   <div id="menu-container">
     <div id="main-menu" class="menu-sections">
-      <img
-        id="logo"
-        src="https://prod-4pic1cy-images.s3-ap-southeast-1.amazonaws.com/4pic1cy.png"
-        
-      />
-      <p>4Pic1Cy, also known as 4 Pictures 1 Cheng Yu (成语), 
-        is a pictorial word guessing game much like the famous 4Pic1Word games.</p>
-
-      <router-link to="/game">
-        <button type="button" class="btn menu-btn btn-lg">Start</button>
-      </router-link>
+      <img id="logo" src="https://prod-4pic1cy-images.s3-ap-southeast-1.amazonaws.com/4pic1cy.png" />
+      <p>
+        4Pic1Cy, also known as 4 Pictures 1 Cheng Yu (成语),
+        is a pictorial word guessing game much like the famous 4Pic1Word games.
+      </p>
+      <p>
+        The game keeps track of your progress, sign in to and playing!
+      </p>
+      <!-- <router-link to="/game" :event="startDisabled ? 'click' : ''" disabled="!startDisabled"> -->
+      <button type="button" class="btn menu-btn btn-lg" @click="startGame" :disabled="startDisabled">Start</button>
+      <!-- </router-link> -->
       <br />
       <button type="button" class="btn menu-btn btn-lg" @click="scrollto">Highscores</button>
       <br />
@@ -68,11 +68,11 @@
       </p>
       <p>
         Design logo and placement in Menu
-        <b>(doing)</b>
+        <b>(done)</b>
       </p>
       <p>
-        Improve UI, display username, footer, image borders, animation
-        <b>(doing)</b>
+        Improve UI, display username, footer, image borders
+        <b>(done)</b>
       </p>
       <p>
         Input 10 questions for game
@@ -91,7 +91,11 @@
         <b></b>
       </p>
       <p>
-        Clues and Hints feature
+        Clues and Hints feature, reveal one character
+        <b></b>
+      </p>
+      <p>
+        Share on social media
         <b></b>
       </p>
 
@@ -120,13 +124,21 @@ export default {
   data() {
     const { user, setUser } = userUsers();
     const highscores = [];
+    const startDisabled = true;
     return {
       user,
       setUser,
-      highscores
+      highscores,
+      startDisabled
     };
   },
   methods: {
+    startGame: function() {
+      if(startDisabled){
+        this.$router.push('/game');
+      }
+      
+    },
     scrollto: function() {
       // get the element on the page related to the button
       // var scrollToId = document.getElementById("highscores").getAttribute("data-scroll");
@@ -144,6 +156,7 @@ export default {
       console.log(this.highscores);
     },
     onSignIn: async function(googleUser) {
+      this.startDisabled = false;
       // var profile = googleUser.getBasicProfile();
       // console.log("Name: " + profile.getName());
 
@@ -173,7 +186,10 @@ export default {
     this.loadHighscores();
     document
       .getElementById("main-menu")
-      .setAttribute("style", `height:${window.screen.height}px`);
+      .setAttribute("style", `min-height:${window.screen.height - 100}px`);
+    document
+      .getElementById("highscores")
+      .setAttribute("style", `min-height:${window.screen.height - 100}px`);
     const scriptPromise = new Promise((resolve, reject) => {
       const script = document.createElement("script");
       document.body.appendChild(script);
@@ -196,14 +212,21 @@ export default {
 html {
   scroll-behavior: smooth;
 }
-h1, button {
+h1,
+button,
+.navbar {
   font-family: "Cinzel Decorative", cursive;
   font-weight: bolder;
 }
-#main-menu> p{
-  font-family: 'Source Sans Pro', sans-serif;
+footer {
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 1.5em;
-  font-weight:1000;
+  font-weight: 1000;
+}
+#main-menu > p {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1.5em;
+  font-weight: 1000;
   margin-bottom: 2em;
 }
 th {
@@ -219,8 +242,8 @@ th {
   min-width: 9em;
 }
 #menu-container #logo {
-  max-height: 25em;
-  max-width: 25em;
+  max-height: 23em;
+  max-width: 23em;
 }
 #menu-container {
   text-align: center;
@@ -237,7 +260,5 @@ th {
   font-weight: bold;
 }
 .menu-sections {
-  margin-top: 3em;
-  margin-bottom: 3em;
 }
 </style>

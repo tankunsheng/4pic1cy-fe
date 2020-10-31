@@ -1,18 +1,24 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="#">4Pic1Cy</a>
+    <a class="navbar-brand" href="#">4Pic1Cy</a> 
+    Hello! 
+    <!-- {{user && user.getBasicProfile().getName()}} -->
   </nav>
   <router-view></router-view>
+  <footer id="footer" class="py-4 bg-dark text-white-50">
+    <div class="container text-center">
+      <small>Copyright OverlyEngineered</small>
+    </div>
+  </footer>
 </template>
 
 <script>
 import userUsers from "./state/users.js";
 export default {
   data() {
-    const { users, load } = userUsers();
+    const { user } = userUsers();
     return {
-      users,
-      load
+      user
     };
   }
 };
@@ -20,8 +26,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.navbar {
-  background-color: #401f7c;
+.navbar-brand, .navbar-brand:hover{
+  font-size: xx-large;
+  color:white;
+}
+.navbar, footer {
+  background-color: #250069 !important;
+  color:white !important;
 }
 .navbar a {
   color: white;

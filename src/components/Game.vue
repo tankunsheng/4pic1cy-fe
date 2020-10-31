@@ -1,12 +1,12 @@
 <template>
   <div id="game-container" class="container-fluid">
     <div class="row">
-      <img class="question-pic offset-md-4 col-md-2" v-bind:src="pictures.first" />
-      <img class="question-pic col-md-2" v-bind:src="pictures.second" />
+      <img class="question-pic offset-md-4 col-md-2 shadow p-3" v-bind:src="pictures.first" />
+      <img class="question-pic col-md-2 shadow p-3" v-bind:src="pictures.second" />
     </div>
     <div class="row">
-      <img class="question-pic offset-md-4 col-md-2" v-bind:src="pictures.third" />
-      <img class="question-pic col-md-2" v-bind:src="pictures.fourth" />
+      <img class="question-pic offset-md-4 col-md-2 shadow p-3" v-bind:src="pictures.third" />
+      <img class="question-pic col-md-2 shadow p-3" v-bind:src="pictures.fourth" />
     </div>
     <div class="row">
       <form class="question-pic offset-md-4 col-md-4">
@@ -99,7 +99,8 @@ export default {
   object-fit: cover;
   width: 100%;
   height: 270px;
-  margin-top: 1.5em;
+  margin-top: 1em;
+  margin-right:1em
 }
 </style>
 
