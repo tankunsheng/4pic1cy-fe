@@ -8,7 +8,7 @@
         is a pictorial word guessing game much like the famous 4Pic1Word games.
       </p>
       <p>
-        The game keeps track of your progress, sign in to and playing!
+        The game keeps track of your progress, sign in to start playing!
       </p>
       <!-- <router-link to="/game" :event="startDisabled ? 'click' : ''" disabled="!startDisabled"> -->
       <button type="button" class="btn menu-btn btn-lg" @click="startGame" :disabled="startDisabled">Start</button>
@@ -76,19 +76,27 @@
       </p>
       <p>
         Input 10 questions for game
-        <b>(doing)</b>
+        <b>(done)</b>
       </p>
       <p>
         Sign in before being able to start game (consider alternatives)
-        <b></b>
+        <b>(done)</b>
       </p>
       <p>
         Cheng Yu explanation
         <b></b>
       </p>
       <p>
+        wrong/correct answer feedback
+        <b>(doing)</b>
+      </p>
+      <p>
+        highscores sorting and top 3 styling
+        <b>(doing)</b>
+      </p>
+      <p>
         Encode or encrypt image names
-        <b></b>
+        <b>(done)</b>
       </p>
       <p>
         Clues and Hints feature, reveal one character
