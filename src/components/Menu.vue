@@ -134,7 +134,7 @@ export default {
   },
   methods: {
     startGame: function() {
-      if(startDisabled){
+      if(!this.startDisabled){
         this.$router.push('/game');
       }
       
