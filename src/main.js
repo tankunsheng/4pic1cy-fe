@@ -2,6 +2,13 @@ import { createApp } from 'vue'
 import Main from './Main.vue'
 import { Amplify } from 'aws-amplify';
 import { apiGateway } from './config.js';
+import 'primevue/resources/themes/saga-blue/theme.css';
+import 'primevue/resources/primevue.min.css';
+import 'primeicons/primeicons.css';
+
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+
 import router from "./router";
 Amplify.configure({
   API: {
@@ -16,5 +23,7 @@ Amplify.configure({
 });
 
 const app = createApp(Main)
+app.component('DataTable', DataTable);
+app.component('Column', Column);
 app.use(router)
 app.mount('#app')

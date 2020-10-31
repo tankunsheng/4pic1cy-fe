@@ -1,6 +1,7 @@
+
 <template>
   <div id="menu-container">
-    <div class="menu-sections">
+    <div id="main-menu" class="menu-sections">
       <img
         id="logo"
         src="https://res.cloudinary.com/dk2ghb1pg/image/upload/v1535301733/bxoyfrkj4zwtbsewcryf.png"
@@ -13,13 +14,26 @@
         <button type="button" class="btn menu-btn btn-lg">Start</button>
       </router-link>
       <br />
-      <button type="button" class="btn menu-btn btn-lg">Highscores</button>
+      <button type="button" class="btn menu-btn btn-lg" @click="scrollto">Highscores</button>
       <br />
       <div id="google-signin-btn"></div>
     </div>
     <hr />
+    <div id="highscores" class="menu-sections">
+       <img
+        id="logo"
+        src="../assets/trophy.png"
+      />
+       <h1>Highscores</h1>
+      <div class="offset-md-4 col-md-4">
+        <DataTable :value="highscores" class="p-datatable-sm p-datatable-gridlines">
+          <Column field="username" header="Player" headerStyle="width: 70%"></Column>
+          <Column field="score" header="Score" headerStyle="width: 30%"></Column>
+        </DataTable>
+      </div>
+    </div>
+    <hr />
     <div class="menu-sections">
-      <input v-model="user.Ca" placeholder="edit me" />
       <h1>TODOs</h1>
       <p>
         Google Login
@@ -46,8 +60,8 @@
         <b>(done)</b>
       </p>
       <p>
-        Deploy frontend
-        <b>(doing)</b>
+        Deploy frontend with Netlify
+        <b>(done)</b>
       </p>
 
       <p>
@@ -55,16 +69,42 @@
         <b>(doing)</b>
       </p>
       <p>
-        Clues and Hints
+        Design logo and placement in Menu
+        <b></b>
+      </p>
+      <p>
+        Improve UI, display username, footer, image borders, animation
+        <b></b>
+      </p>
+      <p>
+        Input 10 questions for game
+        <b></b>
+      </p>
+      <p>
+        Sign in before being able to start game (consider alternatives)
+        <b></b>
+      </p>
+      <p>
+        Chen Yu explanation
+        <b></b>
+      </p>
+      <p>
+        Encode or encrypt image names
+        <b></b>
+      </p>
+      <p>
+        Clues and Hints feature
         <b></b>
       </p>
 
-      <p>Store progress in Cookie (without sign in)</p>
+      <p>Handle token timeout and refresh</p>
     </div>
   </div>
 </template>
 
 <script>
+/* eslint no-use-before-define: 0 */
+
 import userUsers from "../state/users.js";
 import { API } from "aws-amplify";
 function register(token) {
@@ -75,29 +115,46 @@ function register(token) {
 function getPlayer(token) {
   return API.get("4Pic1Cy", `/players/${token}`);
 }
+function getPlayerHighscores() {
+  return API.get("4Pic1Cy", `/players`);
+}
 export default {
   data() {
     const { user, setUser } = userUsers();
+    const highscores = [];
     return {
       user,
-      setUser
+      setUser,
+      highscores
     };
   },
   methods: {
+    scrollto: function() {
+      // get the element on the page related to the button
+      // var scrollToId = document.getElementById("highscores").getAttribute("data-scroll");
+      var e = document.getElementById("highscores");
+      // make the page scroll down to where you want
+      if (!!e && e.scrollIntoView) {
+        e.scrollIntoView();
+      }
+      // ...
+    },
+    loadHighscores: async function() {
+      const highscores = await getPlayerHighscores();
+      // console.log(highscores);
+      this.highscores = highscores;
+      console.log(this.highscores);
+    },
     onSignIn: async function(googleUser) {
       // var profile = googleUser.getBasicProfile();
-      // console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
       // console.log("Name: " + profile.getName());
-      // console.log("Image URL: " + profile.getImageUrl());
-      // console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
 
       //https://developers.google.com/identity/sign-in/web/backend-auth
       //https://stackoverflow.com/questions/53622075/what-prevents-another-app-from-stealing-my-google-oauth-client-id
       // The ID token you need to pass to your backend:
       const token = googleUser.getAuthResponse().id_token;
-      // console.log("ID Token: " + token);
       // console.log(googleUser.getAuthResponse().expires_in);
-      console.log(token);
+      // console.log(token);
 
       //check user exists before call
       const player = await getPlayer(token);
@@ -110,11 +167,15 @@ export default {
       //   console.log(test.id_token);
       //   console.log(test.expires_in);
       // });
-      console.log(this.user);
+      // console.log(this.user);
       this.setUser(googleUser, googleUser.getAuthResponse());
     }
   },
   mounted() {
+    this.loadHighscores();
+    document
+      .getElementById("main-menu")
+      .setAttribute("style", `height:${window.screen.height}px`);
     const scriptPromise = new Promise((resolve, reject) => {
       const script = document.createElement("script");
       document.body.appendChild(script);
@@ -135,6 +196,13 @@ export default {
 </script>
 
 <style>
+html {
+  scroll-behavior: smooth;
+}
+th {
+  background-color: #673db5 !important;
+  color: white !important;
+}
 #google-signin-btn {
   margin: 0 auto;
   width: 9em;

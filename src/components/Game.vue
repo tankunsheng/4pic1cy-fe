@@ -20,7 +20,7 @@
             v-model="answer"
           />
 
-          <small>{{answer}}This is simple. Make a guess come'on</small>
+          <small>This is simple. Make a guess come'on</small>
         </div>
 
         <button type="button" class="btn btn-primary" @click="submitAnswer">SUBMIT</button>
@@ -78,7 +78,9 @@ export default {
       });
       console.log(resp);
       if (resp.result) {
+        console.log(resp.msg);
         this.getQns({ token: this.authInfo.id_token });
+        this.answer = "";
       }
     }
   },
