@@ -7,11 +7,14 @@
         4Pic1Cy, also known as 4 Pictures 1 Cheng Yu (成语),
         is a pictorial word guessing game much like the famous 4Pic1Word games.
       </p>
-      <p>
-        The game keeps track of your progress, sign in to start playing!
-      </p>
+      <p>The game keeps track of your progress, sign in to start playing!</p>
       <!-- <router-link to="/game" :event="startDisabled ? 'click' : ''" disabled="!startDisabled"> -->
-      <button type="button" class="btn menu-btn btn-lg" @click="startGame" :disabled="startDisabled">Start</button>
+      <button
+        type="button"
+        class="btn menu-btn btn-lg"
+        @click="startGame"
+        :disabled="startDisabled"
+      >Start</button>
       <!-- </router-link> -->
       <br />
       <button type="button" class="btn menu-btn btn-lg" @click="scrollto">Highscores</button>
@@ -24,8 +27,17 @@
       <h1>Highscores</h1>
 
       <div class="offset-md-4 col-md-4">
-        <DataTable :value="highscores" class="p-datatable-sm p-datatable-gridlines">
-          <Column field="username" header="Player" headerStyle="width: 70%"></Column>
+        <DataTable
+          :value="highscores"
+          class="p-datatable-sm p-datatable-gridlines"
+          rowIndexVar="index"
+        >
+          <Column field="username" header="Player" headerStyle="width: 70%">
+            <template #body="slotProps">
+              <span v-html="renderTop3Icons(slotProps.index)" style="margin-right:15px"></span>
+              <b>{{slotProps.data.username}}</b>
+            </template>
+          </Column>
           <Column field="score" header="Score" headerStyle="width: 30%"></Column>
         </DataTable>
       </div>
@@ -141,11 +153,19 @@ export default {
     };
   },
   methods: {
-    startGame: function() {
-      if(!this.startDisabled){
-        this.$router.push('/game');
+    renderTop3Icons: function(pos) {
+      let icon = "gold";
+      if (pos === 1) {
+        icon = "silver";
+      } else if (pos === 2) {
+        icon = "brown";
       }
-      
+      return `<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trophy-fill" fill="${icon}" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935zm10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935z"/></svg>`;
+    },
+    startGame: function() {
+      if (!this.startDisabled) {
+        this.$router.push("/game");
+      }
     },
     scrollto: function() {
       // get the element on the page related to the button
