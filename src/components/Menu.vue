@@ -4,11 +4,11 @@
     <div id="main-menu" class="menu-sections">
       <img
         id="logo"
-        src="https://res.cloudinary.com/dk2ghb1pg/image/upload/v1535301733/bxoyfrkj4zwtbsewcryf.png"
-        class="rounded mx-auto d-block"
-        alt="...ds"
+        src="https://prod-4pic1cy-images.s3-ap-southeast-1.amazonaws.com/4pic1cy.png"
+        
       />
-      <p>4Pic1Cy, also known as 4 Pictures 1 Cheng Yu, is a pictorial word guessing game much like the famous 4Pic1Word games.</p>
+      <p>4Pic1Cy, also known as 4 Pictures 1 Cheng Yu (成语), 
+        is a pictorial word guessing game much like the famous 4Pic1Word games.</p>
 
       <router-link to="/game">
         <button type="button" class="btn menu-btn btn-lg">Start</button>
@@ -20,11 +20,9 @@
     </div>
     <hr />
     <div id="highscores" class="menu-sections">
-       <img
-        id="logo"
-        src="../assets/trophy.png"
-      />
-       <h1>Highscores</h1>
+      <img id="logo" src="../assets/trophy.png" />
+      <h1>Highscores</h1>
+
       <div class="offset-md-4 col-md-4">
         <DataTable :value="highscores" class="p-datatable-sm p-datatable-gridlines">
           <Column field="username" header="Player" headerStyle="width: 70%"></Column>
@@ -66,26 +64,26 @@
 
       <p>
         Show highscore
-        <b>(doing)</b>
+        <b>(done)</b>
       </p>
       <p>
         Design logo and placement in Menu
-        <b></b>
+        <b>(doing)</b>
       </p>
       <p>
         Improve UI, display username, footer, image borders, animation
-        <b></b>
+        <b>(doing)</b>
       </p>
       <p>
         Input 10 questions for game
-        <b></b>
+        <b>(doing)</b>
       </p>
       <p>
         Sign in before being able to start game (consider alternatives)
         <b></b>
       </p>
       <p>
-        Chen Yu explanation
+        Cheng Yu explanation
         <b></b>
       </p>
       <p>
@@ -186,21 +184,31 @@ export default {
     });
     scriptPromise.then(() => {
       gapi.signin2.render("google-signin-btn", {
-        // this is the button "id"
         onsuccess: this.onSignIn
       });
     });
-    // console.log(this.users);
   }
 };
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Source+Sans+Pro:wght@200&display=swap");
 html {
   scroll-behavior: smooth;
 }
+h1, button {
+  font-family: "Cinzel Decorative", cursive;
+  font-weight: bolder;
+}
+#main-menu> p{
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1.5em;
+  font-weight:1000;
+  margin-bottom: 2em;
+}
 th {
   background-color: #673db5 !important;
+  font-family: "Cinzel Decorative", cursive;
   color: white !important;
 }
 #google-signin-btn {
@@ -211,8 +219,8 @@ th {
   min-width: 9em;
 }
 #menu-container #logo {
-  max-height: 20em;
-  max-width: 20em;
+  max-height: 25em;
+  max-width: 25em;
 }
 #menu-container {
   text-align: center;
@@ -221,7 +229,7 @@ th {
   background-color: #401f7c;
   color: white;
   margin-bottom: 1em;
-  min-width: 7em;
+  min-width: 9em;
 }
 .menu-btn:hover {
   background-color: #e5d7ff;
