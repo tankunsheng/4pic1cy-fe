@@ -19,7 +19,7 @@
     </div>
     <hr />
     <div class="menu-sections">
-      <input v-model="user.Ca" placeholder="edit me">
+      <input v-model="user.Ca" placeholder="edit me" />
       <h1>TODOs</h1>
       <p>
         Google Login
@@ -29,14 +29,37 @@
         Setup and deploy basic backend
         <b>(done)</b>
       </p>
-      <p>Fetch 1 question from backend <b>(done)</b></p>
-      <p>Start game and display 1 question <b>(done)</b></p>
-      <p>Submit answer and check in backend <b>(done)</b></p>
-      <p>Cycle questions <b>(doing)</b></p>
-      <p>Submit highscore (after google login)</p>
+      <p>
+        Fetch 1 question from backend
+        <b>(done)</b>
+      </p>
+      <p>
+        Start game and display 1 question
+        <b>(done)</b>
+      </p>
+      <p>
+        Submit answer and check in backend
+        <b>(done)</b>
+      </p>
+      <p>
+        Cycle questions
+        <b>(done)</b>
+      </p>
+      <p>
+        Deploy frontend
+        <b>(doing)</b>
+      </p>
+
+      <p>
+        Show highscore
+        <b>(doing)</b>
+      </p>
+      <p>
+        Clues and Hints
+        <b></b>
+      </p>
+
       <p>Store progress in Cookie (without sign in)</p>
-      
-      
     </div>
   </div>
 </template>
@@ -49,6 +72,9 @@ function register(token) {
     body: token
   });
 }
+function getPlayer(token) {
+  return API.get("4Pic1Cy", `/players/${token}`);
+}
 export default {
   data() {
     const { user, setUser } = userUsers();
@@ -58,7 +84,7 @@ export default {
     };
   },
   methods: {
-    onSignIn: function(googleUser){
+    onSignIn: async function(googleUser) {
       // var profile = googleUser.getBasicProfile();
       // console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
       // console.log("Name: " + profile.getName());
@@ -71,17 +97,21 @@ export default {
       const token = googleUser.getAuthResponse().id_token;
       // console.log("ID Token: " + token);
       // console.log(googleUser.getAuthResponse().expires_in);
-      console.log(token)
-      register({ token });
+      console.log(token);
+
+      //check user exists before call
+      const player = await getPlayer(token);
+      if (!player) {
+        register({ token });
+      }
+
       // testget({ token });
       // googleUser.reloadAuthResponse().then(test => {
       //   console.log(test.id_token);
       //   console.log(test.expires_in);
       // });
-      // this.users.googleUser = googleUser
-      // console.log(this.users.googleUser);
-      console.log(this.user)
-      this.setUser(googleUser, googleUser.getAuthResponse())
+      console.log(this.user);
+      this.setUser(googleUser, googleUser.getAuthResponse());
     }
   },
   mounted() {

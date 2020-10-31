@@ -73,10 +73,13 @@ export default {
         answer: this.answer
       };
       console.log(payload);
-      const result = await API.post("4Pic1Cy", "/questions", {
+      const resp = await API.post("4Pic1Cy", "/questions", {
         body: payload
       });
-      console.log(result);
+      console.log(resp);
+      if (resp.result) {
+        this.getQns({ token: this.authInfo.id_token });
+      }
     }
   },
   mounted() {
