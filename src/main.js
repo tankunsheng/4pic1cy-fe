@@ -5,7 +5,7 @@ import { apiGateway } from './config.js';
 import 'primevue/resources/themes/saga-blue/theme.css';
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
-
+import Message from 'primevue/message';
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
 
@@ -24,6 +24,7 @@ Amplify.configure({
 
 const app = createApp(Main)
 app.component('DataTable', DataTable);
+app.component('Message', Message);
 app.component('Column', Column);
 app.use(router)
 app.mount('#app')

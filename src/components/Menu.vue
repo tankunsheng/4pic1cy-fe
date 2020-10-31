@@ -4,18 +4,16 @@
     <div id="main-menu" class="menu-sections">
       <img id="logo" src="https://prod-4pic1cy-images.s3-ap-southeast-1.amazonaws.com/4pic1cy.png" />
       <p>
-        4Pic1Cy, also known as 4 Pictures 1 Cheng Yu (成语),
+        4Pic1Cy (pronounced as "4Pixie"), also known as 4 Pictures 1 Cheng Yu (成语),
         is a pictorial word guessing game much like the famous 4Pic1Word games.
       </p>
       <p>The game keeps track of your progress, sign in to start playing!</p>
-      <!-- <router-link to="/game" :event="startDisabled ? 'click' : ''" disabled="!startDisabled"> -->
       <button
         type="button"
         class="btn menu-btn btn-lg"
         @click="startGame"
         :disabled="startDisabled"
       >Start</button>
-      <!-- </router-link> -->
       <br />
       <button type="button" class="btn menu-btn btn-lg" @click="scrollto">Highscores</button>
       <br />
@@ -100,11 +98,11 @@
       </p>
       <p>
         wrong/correct answer feedback
-        <b>(doing)</b>
+        <b>(done)</b>
       </p>
       <p>
         highscores sorting and top 3 styling
-        <b>(doing)</b>
+        <b>(done)</b>
       </p>
       <p>
         Encode or encrypt image names
@@ -112,13 +110,12 @@
       </p>
       <p>
         Clues and Hints feature, reveal one character
-        <b></b>
+        <b>(doing)</b>
       </p>
       <p>
         Share on social media
         <b></b>
       </p>
-
       <p>Handle token timeout and refresh</p>
     </div>
   </div>
@@ -149,7 +146,8 @@ export default {
       user,
       setUser,
       highscores,
-      startDisabled
+      startDisabled,
+      messages: [],
     };
   },
   methods: {

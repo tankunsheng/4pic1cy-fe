@@ -24,6 +24,8 @@
         </div>
 
         <button type="button" class="btn btn-primary" @click="submitAnswer">SUBMIT</button>
+        <br />
+        <Message :severity="severity" v-show="show" :closable="false">{{msg}}</Message>
       </form>
     </div>
   </div>
@@ -44,44 +46,55 @@ export default {
       fourth: "",
       qId: ""
     };
+    const show = false;
     const answer = "";
     return {
       user,
       authInfo,
       pictures,
-      answer
+      answer,
+      show,
+      severity: "warn",
+      msg: ""
     };
   },
   methods: {
+    handleMsg: function(severity, msg) {
+      this.show = true;
+      this.severity = severity;
+      this.msg = msg;
+    },
     getQns: async function(token) {
       const res = await API.post("4Pic1Cy", "/questions/player", {
         body: token
       });
       const singleQuestion = JSON.parse(res.body);
       this.pictures.first = s3.bucket + singleQuestion.image1;
-      console.log(singleQuestion);
       this.pictures.second = s3.bucket + singleQuestion.image2;
       this.pictures.third = s3.bucket + singleQuestion.image3;
       this.pictures.fourth = s3.bucket + singleQuestion.image4;
       this.pictures.qId = singleQuestion.qId;
     },
     submitAnswer: async function() {
-      console.log(this.answer);
       const payload = {
         token: this.authInfo.id_token,
         qId: this.pictures.qId,
         answer: this.answer
       };
-      console.log(payload);
       const resp = await API.post("4Pic1Cy", "/questions", {
         body: payload
       });
-      console.log(resp);
       if (resp.result) {
-        console.log(resp.msg);
         this.getQns({ token: this.authInfo.id_token });
         this.answer = "";
+        this.handleMsg("success", "CORRECT ANSWER!");
+      } else {
+        this.handleMsg("warn", "WRONG ANSWER!");
       }
+      let me = setInterval(() => {
+        this.show = false;
+        clearInterval(me);
+      }, 1500);
     }
   },
   mounted() {
@@ -100,7 +113,7 @@ export default {
   width: 100%;
   height: 270px;
   margin-top: 1em;
-  margin-right:1em
+  margin-right: 1em;
 }
 </style>
 

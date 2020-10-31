@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="#">4Pic1Cy</a> 
-    Hello! 
+    <a class="navbar-brand" href="#">4Pic1Cy</a>
+    Hello!
     <!-- {{user && user.getBasicProfile().getName()}} -->
   </nav>
   <router-view></router-view>
@@ -15,7 +15,9 @@
 <script>
 import userUsers from "./state/users.js";
 export default {
+  
   data() {
+    
     const { user } = userUsers();
     return {
       user
@@ -26,13 +28,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.navbar-brand, .navbar-brand:hover{
+.navbar-brand,
+.navbar-brand:hover {
   font-size: xx-large;
-  color:white;
+  color: white;
 }
-.navbar, footer {
+.navbar,
+footer {
   background-color: #250069 !important;
-  color:white !important;
+  color: white !important;
 }
 .navbar a {
   color: white;
