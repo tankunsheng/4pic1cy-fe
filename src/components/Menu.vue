@@ -131,6 +131,7 @@ export default {
       }
 
       this.setUser(googleUser, googleUser.getAuthResponse());
+      // console.log(googleUser.getBasicProfile());
     }
   },
   mounted() {

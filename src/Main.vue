@@ -1,13 +1,14 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light">
     <a class="navbar-brand" href="#">4Pic1Cy</a>
-    Hello!
-    <!-- {{user && user.getBasicProfile().getName()}} -->
+    <small>Welcome, </small>&nbsp;
+    {{Object.keys(user).length === 0 && user.constructor === Object?
+    "": user.getBasicProfile().getName()}}
   </nav>
   <router-view></router-view>
   <footer id="footer" class="py-4 bg-dark text-white-50">
     <div class="container text-center">
-      <small>Copyright OverlyEngineered</small>
+      <small>Copyright TheDevDiaries</small>
     </div>
   </footer>
 </template>
@@ -15,9 +16,7 @@
 <script>
 import userUsers from "./state/users.js";
 export default {
-  
   data() {
-    
     const { user } = userUsers();
     return {
       user
@@ -32,6 +31,9 @@ export default {
 .navbar-brand:hover {
   font-size: xx-large;
   color: white;
+}
+.navbar-brand:focus{
+  color:white;
 }
 .navbar,
 footer {
