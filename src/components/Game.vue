@@ -13,7 +13,7 @@
         v-bind:src="pictures.first"
       />
       <img
-        class="question-pic col-5 col-md-2  shadow p-3"
+        class="question-pic col-5 col-md-2 shadow p-3"
         v-show="imageloading"
         :src="imageloadingImg"
       />
@@ -27,21 +27,21 @@
       <img
         v-show="imageloading"
         :src="imageloadingImg"
-        class="question-pic offset-md-4 offset-1 col-md-2 col-5  shadow p-3"
+        class="question-pic offset-md-4 offset-1 col-md-2 col-5 shadow p-3"
       />
       <img
         v-show="imageloading"
         :src="imageloadingImg"
-        class="question-pic col-md-2 col-5  shadow p-3"
+        class="question-pic col-md-2 col-5 shadow p-3"
       />
       <img
         v-show="!imageloading"
-        class="question-pic offset-md-4 offset-1 col-md-2 col-5  shadow p-3"
+        class="question-pic offset-md-4 offset-1 col-md-2 col-5 shadow p-3"
         v-bind:src="pictures.third"
       />
       <img
         v-show="!imageloading"
-        class="question-pic col-md-2 col-5  shadow p-3"
+        class="question-pic col-md-2 col-5 shadow p-3"
         v-bind:src="pictures.fourth"
       />
     </div>
@@ -61,17 +61,24 @@
 
           <small>Note! Pictures are not arranged in the order of the answer</small>
         </div>
-
-        <button id="submitBtn" type="button" class="btn btn-primary" @click="submitAnswer">SUBMIT</button>
         <Button
-          icon="pi pi-bell"
+          icon="pi pi-question"
           class="qns-extras p-button-rounded p-button-help"
           type="button"
           :disabled="hintRevealed"
           @click="getHint(true)"
           v-tooltip="'Click to receive a hint!'"
         />
+        <button id="submitBtn" type="button" class="btn btn-primary" @click="submitAnswer">SUBMIT</button>
 
+        <Button
+          icon="pi pi-forward"
+          style="float:right"
+          class="p-button-rounded p-button-help"
+          type="button"
+          @click="getQns({ token: this.authInfo.id_token })"
+          v-tooltip="'Skip question!'"
+        />
         <br />
         <Message :severity="severity" v-show="show" :closable="false">{{msg}}</Message>
       </form>
@@ -107,7 +114,8 @@ export default {
       answerGuide: "_ _ _ _",
       hintRevealed: false,
       imageloading: true,
-      imageloadingImg: "https://prod-4pic1cy-images.s3-ap-southeast-1.amazonaws.com/4pic1cy-loading.gif"
+      imageloadingImg:
+        "https://prod-4pic1cy-images.s3-ap-southeast-1.amazonaws.com/4pic1cy-loading.gif"
     };
   },
   methods: {
@@ -133,6 +141,7 @@ export default {
       this.msg = msg;
     },
     getQns: async function(token) {
+      this.imageloading = true;
       try {
         const res = await API.post("4Pic1Cy", "/questions/player", {
           body: token
@@ -165,7 +174,6 @@ export default {
         this.getQns({ token: this.authInfo.id_token });
         this.answer = "";
         this.handleMsg("success", "CORRECT ANSWER!");
-         this.imageloading = true;
       } else {
         this.handleMsg("warn", "WRONG ANSWER!");
       }
@@ -191,7 +199,7 @@ export default {
   background-color: #250069 !important;
 }
 .qns-extras {
-  float: right;
+  float: left;
   /* background-color: #250069 !important; */
 }
 .question-pic {
