@@ -59,7 +59,7 @@
             v-model="answer"
           />
 
-          <small>This is simple. Make a guess come'on</small>
+          <small>Note! Pictures are not arranged in the order of the answer</small>
         </div>
 
         <button id="submitBtn" type="button" class="btn btn-primary" @click="submitAnswer">SUBMIT</button>
