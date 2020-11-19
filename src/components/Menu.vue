@@ -216,6 +216,4 @@ th {
   color: black;
   font-weight: bold;
 }
-.menu-sections {
-}
 </style>

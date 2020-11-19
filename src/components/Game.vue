@@ -2,12 +2,48 @@
 <template>
   <div id="game-container" class="container-fluid">
     <div class="row">
-      <img class="question-pic offset-md-4 col-md-2 shadow p-3" v-bind:src="pictures.first" />
-      <img class="question-pic col-md-2 shadow p-3" v-bind:src="pictures.second" />
+      <img
+        class="question-pic offset-md-4 col-md-2 shadow p-3"
+        v-show="imageloading"
+        :src="imageloadingImg"
+      />
+      <img
+        v-show="!imageloading"
+        class="question-pic offset-md-4 col-md-2 shadow p-3"
+        v-bind:src="pictures.first"
+      />
+      <img
+        class="question-pic col-md-2 shadow p-3"
+        v-show="imageloading"
+        :src="imageloadingImg"
+      />
+      <img
+        v-show="!imageloading"
+        class="question-pic col-md-2 shadow p-3"
+        v-bind:src="pictures.second"
+      />
     </div>
     <div class="row">
-      <img class="question-pic offset-md-4 col-md-2 shadow p-3" v-bind:src="pictures.third" />
-      <img class="question-pic col-md-2 shadow p-3" v-bind:src="pictures.fourth" />
+      <img
+        v-show="imageloading"
+        :src="imageloadingImg"
+        class="question-pic offset-md-4 col-md-2 shadow p-3"
+      />
+      <img
+        v-show="imageloading"
+        :src="imageloadingImg"
+        class="question-pic col-md-2 shadow p-3"
+      />
+      <img
+        v-show="!imageloading"
+        class="question-pic offset-md-4 col-md-2 shadow p-3"
+        v-bind:src="pictures.third"
+      />
+      <img
+        v-show="!imageloading"
+        class="question-pic col-md-2 shadow p-3"
+        v-bind:src="pictures.fourth"
+      />
     </div>
     <div class="row">
       <form v-on:submit.prevent="formSubmit" class="question-pic offset-md-4 col-md-4">
@@ -69,11 +105,13 @@ export default {
       severity: "warn",
       msg: "",
       answerGuide: "_ _ _ _",
-      hintRevealed: false
+      hintRevealed: false,
+      imageloading: true,
+      imageloadingImg: "https://prod-4pic1cy-images.s3-ap-southeast-1.amazonaws.com/4pic1cy-loading.gif"
     };
   },
   methods: {
-    formSubmit: function(){
+    formSubmit: function() {
       this.submitAnswer();
     },
     getHint: async function(createHintIfNotExist) {
@@ -99,13 +137,16 @@ export default {
         const res = await API.post("4Pic1Cy", "/questions/player", {
           body: token
         });
-        const singleQuestion = JSON.parse(res.body);
-        this.pictures.first = s3.bucket + singleQuestion.image1;
-        this.pictures.second = s3.bucket + singleQuestion.image2;
-        this.pictures.third = s3.bucket + singleQuestion.image3;
-        this.pictures.fourth = s3.bucket + singleQuestion.image4;
-        this.pictures.qId = singleQuestion.qId;
-        this.getHint(false);
+        setTimeout(() => {
+          this.imageloading = false;
+          const singleQuestion = JSON.parse(res.body);
+          this.pictures.first = s3.bucket + singleQuestion.image1;
+          this.pictures.second = s3.bucket + singleQuestion.image2;
+          this.pictures.third = s3.bucket + singleQuestion.image3;
+          this.pictures.fourth = s3.bucket + singleQuestion.image4;
+          this.pictures.qId = singleQuestion.qId;
+          this.getHint(false);
+        }, 1100);
       } catch (e) {
         console.log(e);
         window.location.replace("#?refresh=true");
@@ -124,6 +165,7 @@ export default {
         this.getQns({ token: this.authInfo.id_token });
         this.answer = "";
         this.handleMsg("success", "CORRECT ANSWER!");
+         this.imageloading = true;
       } else {
         this.handleMsg("warn", "WRONG ANSWER!");
       }
@@ -158,6 +200,15 @@ export default {
   height: 250px;
   margin-top: 1em;
   margin-right: 1em;
+}
+
+img:before {
+  content: " ";
+  display: block;
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  background-image: url(https://i.redd.it/w3kr4m2fi3111.png);
 }
 </style>
 
