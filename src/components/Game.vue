@@ -3,23 +3,23 @@
   <div id="game-container" class="container-fluid">
     <div class="row">
       <img
-        class="question-pic offset-md-4 col-md-2 shadow p-3"
+        class="question-pic offset-md-4 offset-1 col-md-2 col-5 shadow p-3"
         v-show="imageloading"
         :src="imageloadingImg"
       />
       <img
         v-show="!imageloading"
-        class="question-pic offset-md-4 col-md-2 shadow p-3"
+        class="question-pic offset-md-4 offset-1 col-md-2 col-5 shadow p-3"
         v-bind:src="pictures.first"
       />
       <img
-        class="question-pic col-md-2 shadow p-3"
+        class="question-pic col-5 shadow p-3"
         v-show="imageloading"
         :src="imageloadingImg"
       />
       <img
         v-show="!imageloading"
-        class="question-pic col-md-2 shadow p-3"
+        class="question-pic col-md-2 col-5 shadow p-3"
         v-bind:src="pictures.second"
       />
     </div>
@@ -27,21 +27,21 @@
       <img
         v-show="imageloading"
         :src="imageloadingImg"
-        class="question-pic offset-md-4 col-md-2 shadow p-3"
+        class="question-pic offset-md-4 offset-1 col-md-2 col-5  shadow p-3"
       />
       <img
         v-show="imageloading"
         :src="imageloadingImg"
-        class="question-pic col-md-2 shadow p-3"
+        class="question-pic col-md-2 col-5  shadow p-3"
       />
       <img
         v-show="!imageloading"
-        class="question-pic offset-md-4 col-md-2 shadow p-3"
+        class="question-pic offset-md-4 offset-1 col-md-2 col-5  shadow p-3"
         v-bind:src="pictures.third"
       />
       <img
         v-show="!imageloading"
-        class="question-pic col-md-2 shadow p-3"
+        class="question-pic col-md-2 col-5  shadow p-3"
         v-bind:src="pictures.fourth"
       />
     </div>
