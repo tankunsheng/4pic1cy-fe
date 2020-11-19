@@ -10,7 +10,7 @@
       <img class="question-pic col-md-2 shadow p-3" v-bind:src="pictures.fourth" />
     </div>
     <div class="row">
-      <form class="question-pic offset-md-4 col-md-4">
+      <form v-on:submit.prevent="formSubmit" class="question-pic offset-md-4 col-md-4">
         <span show="true" style="font-size:xx-large">{{answerGuide}}</span>
         <br />
         <div class="form-group">
@@ -73,6 +73,9 @@ export default {
     };
   },
   methods: {
+    formSubmit: function(){
+      this.submitAnswer();
+    },
     getHint: async function(createHintIfNotExist) {
       const hint = await API.get(
         "4Pic1Cy",

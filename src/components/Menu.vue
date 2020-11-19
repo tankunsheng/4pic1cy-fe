@@ -32,14 +32,15 @@
           class="p-datatable-sm p-datatable-gridlines"
           rowIndexVar="index"
         >
-          <Column field="username" header="Player" headerStyle="width: 70%">
+          <Column field="username" header="Player" headerStyle="width: 60%">
             <template #body="slotProps">
               <span v-html="renderTop3Icons(slotProps.index)"></span>
               <b v-if="slotProps.data.username">{{slotProps.data.username}}</b>
               <b v-else>{{slotProps.data.name}}</b>
             </template>
           </Column>
-          <Column field="score" header="Score" headerStyle="width: 30%"></Column>
+          <Column field="score" header="Score" headerStyle="width: 20%"></Column>
+          <Column field="hints" header="Hints" headerStyle="width: 20%"></Column>
         </DataTable>
       </div>
     </div>
