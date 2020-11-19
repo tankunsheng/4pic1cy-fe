@@ -19,7 +19,6 @@
       <button type="button" class="btn menu-btn btn-lg" @click="scrollto">Highscores</button>
       <br />
       <div id="google-signin-btn"></div>
-      
     </div>
     <hr />
     <div id="highscores" class="menu-sections">
@@ -31,6 +30,7 @@
           :value="highscores"
           class="p-datatable-sm p-datatable-gridlines"
           rowIndexVar="index"
+          :rowClass="rowClass"
         >
           <Column field="username" header="Player" headerStyle="width: 60%">
             <template #body="slotProps">
@@ -83,6 +83,17 @@ export default {
     };
   },
   methods: {
+    rowClass: function(data) {
+      if (
+        Object.keys(this.user).length === 0 &&
+        this.user.constructor === Object
+      ) {
+        return;
+      }
+      return this.user.getBasicProfile().getName() === data.name
+        ? "highlight-row"
+        : "";
+    },
     renderTop3Icons: function(pos) {
       if (pos > 2) {
         return "";
@@ -215,5 +226,29 @@ th {
   background-color: #e5d7ff;
   color: black;
   font-weight: bold;
+}
+.highlight-row {
+  /* background-color:rgb(109, 81, 211) !important; */
+  color:white !important; 
+  
+  animation: blinkingBackground 1s infinite;
+}
+@keyframes blinkingBackground {
+  0% {
+    background-color: #d7d1e2;
+    color: #000000;
+  }
+  25% {
+    background-color: #c6b6e2;
+  }
+  50% {
+    background-color: #a993d1;
+  }
+  75% {
+    background-color: #9c81ce;
+  }
+  100% {
+    background-color: #8767c4;
+  }
 }
 </style>

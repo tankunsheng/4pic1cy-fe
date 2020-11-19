@@ -13,7 +13,7 @@
         v-bind:src="pictures.first"
       />
       <img
-        class="question-pic col-5 shadow p-3"
+        class="question-pic col-5 col-md-2  shadow p-3"
         v-show="imageloading"
         :src="imageloadingImg"
       />
