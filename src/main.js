@@ -10,7 +10,7 @@ import DataTable from "primevue/datatable";
 import Button from "primevue/button";
 import Column from "primevue/column";
 import Tooltip from 'primevue/tooltip';
-
+import Dialog from 'primevue/dialog'; 
 
 import router from "./router";
 Amplify.configure({
@@ -28,6 +28,7 @@ Amplify.configure({
 const app = createApp(Main)
 
 app.component('DataTable', DataTable);
+app.component('Dialog', Dialog);
 app.component('Button', Button);
 app.component('Message', Message);
 app.component('Column', Column);

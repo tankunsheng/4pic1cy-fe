@@ -45,8 +45,39 @@
         v-bind:src="pictures.fourth"
       />
     </div>
+    <Dialog position="center" v-model:visible="modalVisible" :dismissableMask="true" :modal="true">
+      <template #header>
+        <h5>How to play?</h5>
+      </template>
+
+      <p>Enter your 成语 answer in the textbox and press enter or click on SUBMIT</p>
+      <Button
+        icon="pi pi-question"
+        class="qns-extras p-button-rounded p-button-help p-button-sm"
+        type="button"
+      />
+      <p>
+        <small>Click on this icon on the bottom left to </small>
+        <b>receive a hint!</b>
+      </p>
+      <Button
+        icon="pi pi-forward"
+        class="qns-extras p-button-rounded p-button-help p-button-sm"
+        type="button"
+      />
+      <p>
+        <small>Click on this icon on the bottom right to </small>
+        <b>skip question!</b>
+      </p>
+    </Dialog>
+    <!-- <Dialog position="bottomright" v-model:visible="test">Content</Dialog> -->
     <div class="row">
       <form v-on:submit.prevent="formSubmit" class="question-pic offset-md-4 col-md-4">
+        <small>
+          Note! Pictures are not arranged in the order of the answer.
+          <a href="javascript:void(0);" @click="modalVisible=true">HOW TO PLAY THE GAME?</a>
+        </small>
+        <br />
         <span show="true" style="font-size:xx-large">{{answerGuide}}</span>
         <br />
         <div class="form-group">
@@ -58,8 +89,6 @@
             placeholder="_ _ _ _"
             v-model="answer"
           />
-
-          <small>Note! Pictures are not arranged in the order of the answer</small>
         </div>
         <Button
           icon="pi pi-question"
@@ -115,7 +144,8 @@ export default {
       hintRevealed: false,
       imageloading: true,
       imageloadingImg:
-        "https://prod-4pic1cy-images.s3-ap-southeast-1.amazonaws.com/4pic1cy-loading.gif"
+        "https://prod-4pic1cy-images.s3-ap-southeast-1.amazonaws.com/4pic1cy-loading.gif",
+      modalVisible: true
     };
   },
   methods: {
