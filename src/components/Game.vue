@@ -70,7 +70,6 @@
         <b>skip question!</b>
       </p>
     </Dialog>
-    <!-- <Dialog position="bottomright" v-model:visible="test">Content</Dialog> -->
     <div class="row">
       <form v-on:submit.prevent="formSubmit" class="question-pic offset-md-4 col-md-4">
         <small>
@@ -244,7 +243,6 @@ export default {
   .question-pic {
     height: 150px;
     margin-right:0px;
-    /* margin-left:0px */
   }
 }
 img:before {

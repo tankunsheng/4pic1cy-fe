@@ -9,16 +9,54 @@
         <Message :severity="severity" v-show="show" :closable="true">{{refreshMsg}}</Message>
       </p>
       <p>The game keeps track of your progress, sign in to start playing!</p>
+      <div id="google-signin-btn"></div>
+
+      <br />
       <button
         type="button"
         class="btn menu-btn btn-lg"
         @click="startGame"
         :disabled="startDisabled"
       >Start</button>
+
+      <!-- https://stackoverflow.com/questions/28548347/social-media-sharing-without-scripts -->
       <br />
       <button type="button" class="btn menu-btn btn-lg" @click="scrollto">Highscores</button>
       <br />
-      <div id="google-signin-btn"></div>
+
+      <a
+        href="http://www.facebook.com/sharer.php?u=https://romantic-babbage-884c22.netlify.app/#/"
+        target="_blank"
+      >
+        <Button
+          icon="pi pi-facebook"
+          class="p-button-rounded p-button-primary social-media-icon"
+          type="button"
+          v-tooltip="'Share on FB'"
+        />
+      </a>
+
+      <a
+        href="http://twitter.com/share?url=https://romantic-babbage-884c22.netlify.app/#/&text=Simple Share Buttons&hashtags=simplesharebuttons"
+        target="_blank"
+      >
+        <Button
+          icon="pi pi-twitter"
+          class="p-button-rounded p-button-primary social-media-icon"
+          type="button"
+          v-tooltip="'Share on Twitter'"
+        />
+      </a>
+      <a
+        href="http://reddit.com/submit?url=https://romantic-babbage-884c22.netlify.app&title=Simple Share Buttons"
+        target="_blank"
+      >
+        <img
+          v-tooltip="'Share on Reddit'"
+          class="reddit-icon social-media-icon"
+          src="https://www.flaticon.com/svg/static/icons/svg/1419/1419504.svg"
+        />
+      </a>
     </div>
     <hr />
     <div id="highscores" class="menu-sections">
@@ -27,6 +65,10 @@
 
       <div class="offset-md-4 col-md-4">
         <DataTable
+          paginatorTemplate="CurrentPageReport  PrevPageLink PageLinks NextPageLink  RowsPerPageDropdown"
+          currentPageReportTemplate="Top {first} to {last} of {totalRecords}"
+          :paginator="true"
+          :rows="10"
           :value="highscores"
           class="p-datatable-sm p-datatable-gridlines"
           rowIndexVar="index"
@@ -53,7 +95,7 @@
 import userUsers from "../state/users.js";
 import { API } from "aws-amplify";
 function register(token) {
-  console.log(token);
+  // console.log(token);
   return API.put("4Pic1Cy", "/players", {
     body: token
   });
@@ -122,9 +164,7 @@ export default {
     },
     loadHighscores: async function() {
       const highscores = await getPlayerHighscores();
-      // console.log(highscores);
       this.highscores = highscores;
-      console.log(this.highscores);
     },
     onSignIn: async function(googleUser) {
       this.startDisabled = false;
@@ -141,11 +181,9 @@ export default {
       }
 
       this.setUser(googleUser, googleUser.getAuthResponse());
-      // console.log(googleUser.getBasicProfile());
     }
   },
   mounted() {
-    console.log(window.location.hash.includes("refresh"));
     if (window.location.hash.includes("refresh")) {
       this.show = true;
     }
@@ -177,6 +215,13 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Source+Sans+Pro:wght@200&display=swap");
 html {
   scroll-behavior: smooth;
+}
+.reddit-icon {
+  border-radius: 50%;
+  height: 2.357rem;
+}
+.social-media-icon{
+  margin-right:1em
 }
 h1,
 button,
@@ -226,9 +271,7 @@ th {
   font-weight: bold;
 }
 .highlight-row {
-  /* background-color:rgb(109, 81, 211) !important; */
-  color:white !important; 
-  
+  color: white !important;
   animation: blinkingBackground 1s infinite;
 }
 @keyframes blinkingBackground {
