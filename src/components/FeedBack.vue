@@ -5,36 +5,33 @@
     <p>Please leave a review. Your feedback on how the game can be improved is greatly appreciated!</p>
 
     <Carousel
-      :value="reviews"
+      :value="reviews.items"
       :numScroll="2"
       :numVisible="2"
       :circular="true"
-      :autoplayInterval="2000"
+      :autoplayInterval="3000"
     >
       <template #item="slotProps">
         <div>
           <h5>{{slotProps.data.name}}</h5>
-          <Rating :modelValue="slotProps.data.stars" :stars="5" :cancel="false" />
+          <Rating :modelValue="slotProps.data.rating" :stars="5" :cancel="false" />
           <div>{{slotProps.data.review}}</div>
         </div>
       </template>
     </Carousel>
     <h3>Submit a Review</h3>
     <Rating v-model="ratingStars" :cancel="false" />
-    <Textarea v-model="reviewText" :autoResize="true" rows="2" cols="70" maxlength="200"/>
-    <br/>
+    <Textarea v-model="reviewText" :autoResize="true" rows="2" cols="70" maxlength="100" />
+    <br />
     <button id="submitBtn" type="button" class="btn btn-primary" @click="submitReview">SUBMIT</button>
   </div>
-      <Dialog position="bottom" v-model:visible="modalVisible" :dismissableMask="true" :modal="true">
-      <template #header>
-        <h5>Thank you for reviewing the game!</h5>
-      </template>
+  <Dialog position="bottom" v-model:visible="modalVisible" :dismissableMask="true" :modal="true">
+    <template #header>
+      <h5>Thank you for reviewing the game!</h5>
+    </template>
 
-      <p>
-        You can change your reviews and ratings anytime by re-submitting a new one.
-      </p>
-     
-    </Dialog>
+    <p>You can change your reviews and ratings anytime by re-submitting a new one.</p>
+  </Dialog>
 </template>
 
 <script>
@@ -51,6 +48,10 @@ export default {
     Carousel,
     Textarea
   },
+  async mounted() {
+    this.reviews.items = await API.get("4Pic1Cy", "/players/reviews");
+    console.log(this.reviews.items);
+  },
   methods: {
     submitReview: async function() {
       const response = await API.put("4Pic1Cy", "/players/review", {
@@ -60,9 +61,9 @@ export default {
           review: this.reviewText
         }
       });
-      if(response.success){
+      if (response.success) {
         this.modalVisible = true;
-      }else{
+      } else {
         console.log("An error has occurred.");
       }
       this.reviewText = "";
@@ -73,33 +74,46 @@ export default {
     const ratingStars = ref(5);
     const reviewText = ref("");
     const modalVisible = ref(false);
-    const reviews = reactive([
-      {
-        name: "UserA",
-        review: "sibei hos sia",
-        stars: 1
-      },
-      {
-        name: "UserB",
-        review: "sibei hos sias",
-        stars: 2
-      },
-      {
-        name: "UserC",
-        review: "sibei hos sias",
-        stars: 3
-      },
-      {
-        name: "UserD",
-        review: "sibei hos sias",
-        stars: 4
-      },
-      {
-        name: "UserE",
-        review: "sibei hos sias",
-        stars: 5
-      }
-    ]);
+    const reviews = reactive({
+      items: [
+        {
+          name: "UserA",
+          review: "sibei hos sia",
+          stars: 1
+        },
+        {
+          name: "UserB",
+          review: "sibei hos sias",
+          stars: 2
+        },
+        {
+          name: "UserC",
+          review: "sibei hos sias",
+          stars: 3
+        },
+        {
+          name: "UserD",
+          review: "sibei hos sias",
+          stars: 4
+        },
+        {
+          name: "UserE",
+          review: "sibei hos sias",
+          stars: 5
+        }
+      ]
+    });
+
+    // const test = await API.get("4Pic1Cy", "/players/reviews");
+    // this.reviews = [
+    //   {
+    //     name: "UserA",
+    //     review: "sibei hos sia",
+    //     stars: 1
+    //   }
+    // ];
+    // console.log(test);
+
     return { user, authInfo, ratingStars, reviews, reviewText, modalVisible };
   }
 };
