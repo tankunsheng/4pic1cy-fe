@@ -3,23 +3,23 @@
   <div id="game-container" class="container-fluid">
     <div class="row">
       <img
-        class="question-pic offset-md-4 offset-1 col-md-2 col-5 shadow p-3"
+        class="question-pic offset-lg-4 offset-md-2 offset-1 col-lg-2 col-md-4 col-5 shadow p-3"
         v-show="imageloading"
         :src="imageloadingImg"
       />
       <img
         v-show="!imageloading"
-        class="question-pic offset-md-4 offset-1 col-md-2 col-5 shadow p-3"
+        class="question-pic offset-lg-4 offset-md-2 offset-1 col-lg-2 col-md-4 col-5 shadow p-3"
         v-bind:src="pictures.first"
       />
       <img
-        class="question-pic col-5 col-md-2 shadow p-3"
+        class="question-pic col-lg-2 col-md-4 col-5 shadow p-3"
         v-show="imageloading"
         :src="imageloadingImg"
       />
       <img
         v-show="!imageloading"
-        class="question-pic col-md-2 col-5 shadow p-3"
+        class="question-pic col-lg-2 col-md-4 col-5 shadow p-3"
         v-bind:src="pictures.second"
       />
     </div>
@@ -27,21 +27,21 @@
       <img
         v-show="imageloading"
         :src="imageloadingImg"
-        class="question-pic offset-md-4 offset-1 col-md-2 col-5 shadow p-3"
+        class="question-pic offset-lg-4 offset-md-2 offset-1 col-lg-2 col-md-4 col-5 shadow p-3"
       />
       <img
         v-show="imageloading"
         :src="imageloadingImg"
-        class="question-pic col-md-2 col-5 shadow p-3"
+        class="question-pic col-lg-2 col-md-4 col-5 shadow p-3"
       />
       <img
         v-show="!imageloading"
-        class="question-pic offset-md-4 offset-1 col-md-2 col-5 shadow p-3"
+        class="question-pic offset-lg-4 offset-md-2 offset-1 col-lg-2 col-md-4 col-5 shadow p-3"
         v-bind:src="pictures.third"
       />
       <img
         v-show="!imageloading"
-        class="question-pic col-md-2 col-5 shadow p-3"
+        class="question-pic col-lg-2 col-md-4 col-5 shadow p-3"
         v-bind:src="pictures.fourth"
       />
     </div>
@@ -239,7 +239,14 @@ export default {
   margin-top: 1em;
   margin-right: 1em;
 }
-
+/* On screens that are 600px or less, set the background color to olive */
+@media screen and (max-width: 600px) {
+  .question-pic {
+    height: 150px;
+    margin-right:0px;
+    /* margin-left:0px */
+  }
+}
 img:before {
   content: " ";
   display: block;

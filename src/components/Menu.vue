@@ -44,8 +44,6 @@
         </DataTable>
       </div>
     </div>
-    <hr />
-    <div class="menu-sections"></div>
   </div>
 </template>
 

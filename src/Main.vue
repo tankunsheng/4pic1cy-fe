@@ -1,16 +1,22 @@
-<template>
+<template >
   <nav class="navbar navbar-expand-lg navbar-light">
     <a class="navbar-brand" href="#">4Pic1Cy</a>
-    <small>Welcome, </small>&nbsp;
+    <small>Welcome,</small>
+    &nbsp;
     {{Object.keys(user).length === 0 && user.constructor === Object?
     "": user.getBasicProfile().getName()}}
   </nav>
-  <router-view></router-view>
-  <footer id="footer" class="py-4 bg-dark text-white-50">
-    <div class="container text-center">
-      <small>Copyright TheDevDiaries</small>
+  <div id="page-container">
+    <div id="content-wrap">
+      <router-view></router-view>
     </div>
-  </footer>
+
+    <footer id="footer" class="py-4 bg-dark text-white-50">
+      <div class="container text-center">
+        <small>Copyright TheDevDiaries</small>
+      </div>
+    </footer>
+  </div>
 </template>
 
 <script>
@@ -32,13 +38,26 @@ export default {
   font-size: xx-large;
   color: white;
 }
-.navbar-brand:focus{
-  color:white;
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+.navbar-brand:focus {
+  color: white;
 }
 .navbar,
 footer {
   background-color: #250069 !important;
   color: white !important;
+}
+#content-wrap {
+  padding-bottom: 8rem; /* Footer height */
+}
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 5rem;
 }
 .navbar a {
   color: white;
