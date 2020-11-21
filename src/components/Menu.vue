@@ -18,7 +18,6 @@
         @click="startGame"
         :disabled="startDisabled"
       >Start</button>
-
       <!-- https://stackoverflow.com/questions/28548347/social-media-sharing-without-scripts -->
       <br />
       <button type="button" class="btn menu-btn btn-lg" @click="scrollto">Highscores</button>
@@ -60,7 +59,7 @@
     </div>
     <hr />
     <div id="highscores" class="menu-sections">
-      <img id="logo" src="../assets/trophy.png" />
+      <img id="trophy-logo" src="../assets/trophy.png" />
       <h1>Highscores</h1>
 
       <div class="offset-md-4 col-md-4">
@@ -86,16 +85,16 @@
         </DataTable>
       </div>
     </div>
+    <FeedBack />
   </div>
 </template>
 
 <script>
 /* eslint no-use-before-define: 0 */
-
+import FeedBack from "./FeedBack.vue";
 import userUsers from "../state/users.js";
 import { API } from "aws-amplify";
 function register(token) {
-  // console.log(token);
   return API.put("4Pic1Cy", "/players", {
     body: token
   });
@@ -107,6 +106,9 @@ function getPlayerHighscores() {
   return API.get("4Pic1Cy", `/players`);
 }
 export default {
+  components: {
+    FeedBack
+  },
   data() {
     const { user, setUser } = userUsers();
     const highscores = [];
@@ -173,7 +175,7 @@ export default {
       //https://stackoverflow.com/questions/53622075/what-prevents-another-app-from-stealing-my-google-oauth-client-id
       // The ID token you need to pass to your backend:
       const token = googleUser.getAuthResponse().id_token;
-
+      console.log(token);
       //check user exists before call
       const player = await getPlayer(token);
       if (!player) {
@@ -220,8 +222,8 @@ html {
   border-radius: 50%;
   height: 2.357rem;
 }
-.social-media-icon{
-  margin-right:1em
+.social-media-icon {
+  margin-right: 1em;
 }
 h1,
 button,
@@ -255,6 +257,10 @@ th {
 #menu-container #logo {
   max-height: 23em;
   max-width: 23em;
+}
+#menu-container #trophy-logo {
+  max-height: 15em;
+  max-width: 15em;
 }
 #menu-container {
   text-align: center;
