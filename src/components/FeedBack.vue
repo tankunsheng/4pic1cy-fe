@@ -5,6 +5,7 @@
     <p>Please leave a review. Your feedback on how the game can be improved is greatly appreciated!</p>
 
     <Carousel
+      :responsiveOptions="responsiveOptions" 
       :value="reviews.items"
       :numScroll="2"
       :numVisible="2"
@@ -75,46 +76,22 @@ export default {
     const reviewText = ref("");
     const modalVisible = ref(false);
     const reviews = reactive({
-      items: [
-        {
-          name: "UserA",
-          review: "sibei hos sia",
-          stars: 1
-        },
-        {
-          name: "UserB",
-          review: "sibei hos sias",
-          stars: 2
-        },
-        {
-          name: "UserC",
-          review: "sibei hos sias",
-          stars: 3
-        },
-        {
-          name: "UserD",
-          review: "sibei hos sias",
-          stars: 4
-        },
-        {
-          name: "UserE",
-          review: "sibei hos sias",
-          stars: 5
-        }
-      ]
-    });
+      items: []
+    }); 
+    const responsiveOptions= [
+			{
+				breakpoint: '800px',
+				numVisible: 1,
+				numScroll: 1
+			},
+			{
+				breakpoint: '480px',
+				numVisible: 1,
+				numScroll: 1
+			}
+		]
 
-    // const test = await API.get("4Pic1Cy", "/players/reviews");
-    // this.reviews = [
-    //   {
-    //     name: "UserA",
-    //     review: "sibei hos sia",
-    //     stars: 1
-    //   }
-    // ];
-    // console.log(test);
-
-    return { user, authInfo, ratingStars, reviews, reviewText, modalVisible };
+    return { user, authInfo, ratingStars, reviews, reviewText, modalVisible,  responsiveOptions};
   }
 };
 </script>

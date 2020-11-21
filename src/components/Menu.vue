@@ -175,7 +175,7 @@ export default {
       //https://stackoverflow.com/questions/53622075/what-prevents-another-app-from-stealing-my-google-oauth-client-id
       // The ID token you need to pass to your backend:
       const token = googleUser.getAuthResponse().id_token;
-      console.log(token);
+      // console.log(token);
       //check user exists before call
       const player = await getPlayer(token);
       if (!player) {
