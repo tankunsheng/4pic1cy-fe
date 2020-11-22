@@ -5,7 +5,7 @@
     <p>Please leave a review. Your feedback on how the game can be improved is greatly appreciated!</p>
 
     <Carousel
-      :responsiveOptions="responsiveOptions" 
+      :responsiveOptions="responsiveOptions"
       :value="reviews.items"
       :numScroll="2"
       :numVisible="2"
@@ -20,11 +20,17 @@
         </div>
       </template>
     </Carousel>
-    <h3>Submit a Review</h3>
+    <h3>Submit your Review</h3>
     <Rating v-model="ratingStars" :cancel="false" />
     <Textarea v-model="reviewText" :autoResize="true" rows="2" cols="70" maxlength="100" />
     <br />
-    <button id="submitBtn" type="button" class="btn btn-primary" @click="submitReview">SUBMIT</button>
+    <button
+      id="submitBtn"
+      type="button"
+      class="btn btn-primary"
+      @click="submitReview"
+      :disabled="Object.keys(user).length === 0 && user.constructor === Object"
+    >SUBMIT</button>
   </div>
   <Dialog position="bottom" v-model:visible="modalVisible" :dismissableMask="true" :modal="true">
     <template #header>
@@ -76,21 +82,29 @@ export default {
     const modalVisible = ref(false);
     const reviews = reactive({
       items: []
-    }); 
-    const responsiveOptions= [
-			{
-				breakpoint: '800px',
-				numVisible: 1,
-				numScroll: 1
-			},
-			{
-				breakpoint: '480px',
-				numVisible: 1,
-				numScroll: 1
-			}
-		]
+    });
+    const responsiveOptions = [
+      {
+        breakpoint: "800px",
+        numVisible: 1,
+        numScroll: 1
+      },
+      {
+        breakpoint: "480px",
+        numVisible: 1,
+        numScroll: 1
+      }
+    ];
 
-    return { user, authInfo, ratingStars, reviews, reviewText, modalVisible,  responsiveOptions};
+    return {
+      user,
+      authInfo,
+      ratingStars,
+      reviews,
+      reviewText,
+      modalVisible,
+      responsiveOptions
+    };
   }
 };
 </script>
