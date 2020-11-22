@@ -13,7 +13,9 @@
 
     <footer id="footer" class="py-4 bg-dark text-white-50">
       <div class="container text-center">
-        <small>Copyright TheDevDiaries</small>
+        <small>Copyright@TheDevDiaries</small>
+        <br />
+        <a href="/#/policy">Privacy Policy</a>
       </div>
     </footer>
   </div>
@@ -58,6 +60,11 @@ footer {
   bottom: 0;
   width: 100%;
   height: 5rem;
+  font-size: 1rem;
+  
+}
+#footer a {
+  color: white
 }
 .navbar a {
   color: white;
@@ -74,9 +81,7 @@ li {
   display: inline-block;
   margin: 0 10px;
 }
-a {
-  color: #42b983;
-}
+
 .collapse {
   color: white;
 }

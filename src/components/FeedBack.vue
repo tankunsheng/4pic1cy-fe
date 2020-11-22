@@ -51,7 +51,6 @@ export default {
   },
   async mounted() {
     this.reviews.items = await API.get("4Pic1Cy", "/players/reviews");
-    console.log(this.reviews.items);
   },
   methods: {
     submitReview: async function() {
