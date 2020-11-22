@@ -67,7 +67,7 @@
           paginatorTemplate="CurrentPageReport  PrevPageLink PageLinks NextPageLink  RowsPerPageDropdown"
           currentPageReportTemplate="Top {first} to {last} of {totalRecords}"
           :paginator="true"
-          :rows="10"
+          :rows="20"
           :value="highscores"
           class="p-datatable-sm p-datatable-gridlines"
           rowIndexVar="index"
@@ -134,7 +134,7 @@ export default {
       }
       return this.user.getBasicProfile().getName() === data.name
         ? "highlight-row"
-        : "";
+        : "normal-row";
     },
     renderTop3Icons: function(pos) {
       if (pos > 2) {
@@ -279,6 +279,9 @@ th {
 .highlight-row {
   color: white !important;
   animation: blinkingBackground 1s infinite;
+}
+.normal-row {
+  line-height:1.4rem;
 }
 @keyframes blinkingBackground {
   0% {

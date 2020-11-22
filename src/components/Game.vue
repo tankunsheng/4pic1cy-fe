@@ -57,7 +57,7 @@
         type="button"
       />
       <p>
-        <small>Click on this icon on the bottom left to </small>
+        <small>Click on this icon on the bottom left to</small>
         <b>receive a hint!</b>
       </p>
       <Button
@@ -66,7 +66,7 @@
         type="button"
       />
       <p>
-        <small>Click on this icon on the bottom right to </small>
+        <small>Click on this icon on the bottom right to</small>
         <b>skip question!</b>
       </p>
     </Dialog>
@@ -74,7 +74,10 @@
       <form v-on:submit.prevent="formSubmit" class="question-pic offset-md-4 col-md-4">
         <small>
           Note! Pictures are not arranged in the order of the answer.
-          <a href="javascript:void(0);" @click="modalVisible=true">HOW TO PLAY THE GAME?</a>
+          <a
+            href="javascript:void(0);"
+            @click="modalVisible=true"
+          >HOW TO PLAY THE GAME?</a>
         </small>
         <br />
         <span show="true" style="font-size:xx-large">{{answerGuide}}</span>
@@ -177,6 +180,7 @@ export default {
         });
         setTimeout(() => {
           this.imageloading = false;
+          this.answer = "";
           const singleQuestion = JSON.parse(res.body);
           this.pictures.first = s3.bucket + singleQuestion.image1;
           this.pictures.second = s3.bucket + singleQuestion.image2;
@@ -242,7 +246,7 @@ export default {
 @media screen and (max-width: 600px) {
   .question-pic {
     height: 150px;
-    margin-right:0px;
+    margin-right: 0px;
   }
 }
 img:before {
