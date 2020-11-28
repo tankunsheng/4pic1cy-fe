@@ -2,7 +2,7 @@
 <template>
   <div id="menu-container">
     <div id="main-menu" class="menu-sections">
-      <img id="logo" src="https://prod-4pic1cy-images.s3-ap-southeast-1.amazonaws.com/4pic1cy.png" />
+      <img id="logo" src="https://prod-4pic1cy-images.s3-ap-southeast-1.amazonaws.com/4pic1cy.png" alt="4 pic 1 cheng yu" />
       <p>
         4Pic1Cy (pronounced as "4Pixie"), also known as 4 Pictures 1 Cheng Yu (成语),
         is a pictorial word guessing game much like the famous 4Pic1Word games.
@@ -64,7 +64,7 @@
       data-full-width-responsive="true"
     ></ins>
     <div id="highscores" class="menu-sections">
-      <img id="trophy-logo" src="../assets/trophy.png" />
+      <img id="trophy-logo" src="../assets/trophy.png" alt="4pic1cy highscores" />
       <h1>Highscores</h1>
       {{signInReminder()}}
       <div class="offset-md-4 col-md-4">
