@@ -157,7 +157,10 @@ export default {
     getHint: async function(createHintIfNotExist) {
       const hint = await API.get(
         "4Pic1Cy",
-        `/players/${this.authInfo.id_token || document.cookie.substring("player_sub=".length)}/${this.pictures.qId}/${createHintIfNotExist}`
+        `/players/${this.authInfo.id_token ||
+          this.getCookiePlayerId()}/${
+          this.pictures.qId
+        }/${createHintIfNotExist}`
       );
       this.hintRevealed = hint.success;
       this.showHint(hint);
@@ -176,8 +179,18 @@ export default {
       this.authInfo.id_token
         ? this.getQns({ token: this.authInfo.id_token })
         : this.getQns({
-            tempId: document.cookie.substring("player_sub=".length)
+            tempId: this.getCookiePlayerId()
           });
+    },
+    getCookiePlayerId: function() {
+      const keyLength = 36;
+      const indexToStart = document.cookie.indexOf("player_sub=") + "player_sub=".length;
+      const playerId = document.cookie.substring(
+        indexToStart,
+        indexToStart + keyLength
+      );
+      console.log(playerId);
+      return playerId;
     },
     getQns: async function(playerId) {
       this.imageloading = true;
@@ -208,9 +221,7 @@ export default {
       };
       this.authInfo.id_token
         ? (payload["token"] = this.authInfo.id_token)
-        : (payload["tempId"] = document.cookie.substring(
-            "player_sub=".length
-          ));
+        : (payload["tempId"] = this.getCookiePlayerId())
       const resp = await API.post("4Pic1Cy", "/questions", {
         body: payload
       });
