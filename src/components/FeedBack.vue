@@ -24,6 +24,8 @@
     <Rating v-model="ratingStars" :cancel="false" />
     <Textarea v-model="reviewText" :autoResize="true" rows="2" cols="70" maxlength="100" />
     <br />
+    <small>Sign in to submit a review</small>
+     <br />
     <button
       id="submitBtn"
       type="button"

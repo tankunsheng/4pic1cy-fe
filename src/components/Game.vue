@@ -107,7 +107,7 @@
           style="float:right"
           class="p-button-rounded p-button-help"
           type="button"
-          @click="getQns({ token: this.authInfo.id_token })"
+          @click="getQnsWithId()"
           v-tooltip="'Skip question!'"
         />
         <br />
@@ -157,7 +157,7 @@ export default {
     getHint: async function(createHintIfNotExist) {
       const hint = await API.get(
         "4Pic1Cy",
-        `/players/${this.authInfo.id_token}/${this.pictures.qId}/${createHintIfNotExist}`
+        `/players/${this.authInfo.id_token || document.cookie.substring("player_sub=".length)}/${this.pictures.qId}/${createHintIfNotExist}`
       );
       this.hintRevealed = hint.success;
       this.showHint(hint);
@@ -172,11 +172,18 @@ export default {
       this.severity = severity;
       this.msg = msg;
     },
-    getQns: async function(token) {
+    getQnsWithId: function() {
+      this.authInfo.id_token
+        ? this.getQns({ token: this.authInfo.id_token })
+        : this.getQns({
+            tempId: document.cookie.substring("player_sub=".length)
+          });
+    },
+    getQns: async function(playerId) {
       this.imageloading = true;
       try {
         const res = await API.post("4Pic1Cy", "/questions/player", {
-          body: token
+          body: playerId
         });
         setTimeout(() => {
           this.imageloading = false;
@@ -195,16 +202,20 @@ export default {
       }
     },
     submitAnswer: async function() {
-      const payload = {
-        token: this.authInfo.id_token,
+      let payload = {
         qId: this.pictures.qId,
         answer: this.answer
       };
+      this.authInfo.id_token
+        ? (payload["token"] = this.authInfo.id_token)
+        : (payload["tempId"] = document.cookie.substring(
+            "player_sub=".length
+          ));
       const resp = await API.post("4Pic1Cy", "/questions", {
         body: payload
       });
       if (resp.result) {
-        this.getQns({ token: this.authInfo.id_token });
+        this.getQnsWithId();
         this.answer = "";
         this.handleMsg("success", "CORRECT ANSWER!");
       } else {
@@ -217,7 +228,7 @@ export default {
     }
   },
   mounted() {
-    this.getQns({ token: this.authInfo.id_token });
+    this.getQnsWithId();
   }
 };
 </script>

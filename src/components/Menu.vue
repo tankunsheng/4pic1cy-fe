@@ -12,12 +12,7 @@
       <div id="google-signin-btn"></div>
 
       <br />
-      <button
-        type="button"
-        class="btn menu-btn btn-lg"
-        @click="startGame"
-        :disabled="startDisabled"
-      >Start</button>
+      <button type="button" class="btn menu-btn btn-lg" @click="startGame">Start</button>
       <!-- https://stackoverflow.com/questions/28548347/social-media-sharing-without-scripts -->
       <br />
       <button type="button" class="btn menu-btn btn-lg" @click="scrollto">Highscores</button>
@@ -94,6 +89,8 @@
 import FeedBack from "./FeedBack.vue";
 import userUsers from "../state/users.js";
 import { API } from "aws-amplify";
+import { checkObjectEmpty } from "../util/util.js";
+import { v4 as uuidv4 } from "uuid";
 function register(token) {
   return API.put("4Pic1Cy", "/players", {
     body: token
@@ -112,7 +109,7 @@ export default {
   data() {
     const { user, setUser } = userUsers();
     const highscores = [];
-    const startDisabled = true;
+    const startDisabled = false;
     return {
       user,
       setUser,
@@ -150,10 +147,17 @@ export default {
       }
       return `<svg style="margin-right:15px"  width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trophy-fill" fill="${icon}" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5c0 .538-.012 1.05-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33.076 33.076 0 0 1 2.5.5zm.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935zm10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935z"/></svg>`;
     },
-    startGame: function() {
-      if (!this.startDisabled) {
-        this.$router.push("/game");
+    startGame: async function() {
+      if (
+        checkObjectEmpty(this.user) &&
+        !document.cookie.includes("player_sub")
+      ) {
+        const tempId = uuidv4();
+        document.cookie = `player_sub=${tempId}; expires=Thu, 18 Dec 2100 12:00:00 UTC`;
+        await register({ tempId });
       }
+
+      this.$router.push("/game");
     },
     scrollto: function() {
       // get the element on the page related to the button
@@ -169,17 +173,33 @@ export default {
       this.highscores = highscores;
     },
     onSignIn: async function(googleUser) {
-      this.startDisabled = false;
+      // this.startDisabled = false;
 
       //https://developers.google.com/identity/sign-in/web/backend-auth
       //https://stackoverflow.com/questions/53622075/what-prevents-another-app-from-stealing-my-google-oauth-client-id
       // The ID token you need to pass to your backend:
       const token = googleUser.getAuthResponse().id_token;
-      // console.log(token);
+      console.log(token);
       //check user exists before call
       const player = await getPlayer(token);
-      if (!player) {
+      if (!player && !document.cookie.includes("player_sub")) {
         register({ token });
+      } else if (!player && document.cookie.includes("player_sub")) {
+        console.log("registering account");
+        //register account
+        await register({ token });
+        //update with with existing progress
+        console.log("updating account");
+        const results = await API.put(
+          "4Pic1Cy",
+          `/players/${document.cookie.substring("player_sub=".length)}`,
+          {
+            body: {
+              token: token
+            }
+          }
+        );
+        console.log(results);
       }
 
       this.setUser(googleUser, googleUser.getAuthResponse());
@@ -281,7 +301,7 @@ th {
   animation: blinkingBackground 1s infinite;
 }
 .normal-row {
-  line-height:1.4rem;
+  line-height: 1.4rem;
 }
 @keyframes blinkingBackground {
   0% {
