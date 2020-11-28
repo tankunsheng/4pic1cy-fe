@@ -53,6 +53,16 @@
       </a>
     </div>
     <hr />
+
+    <!-- 4pic1cy-horizontal -->
+    <ins
+      class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-7653420517483832"
+      data-ad-slot="8034477504"
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    ></ins>
     <div id="highscores" class="menu-sections">
       <img id="trophy-logo" src="../assets/trophy.png" />
       <h1>Highscores</h1>
@@ -205,15 +215,11 @@ export default {
         //register account
         await register({ token });
         //update with with existing progress
-        await API.put(
-          "4Pic1Cy",
-          `/players/${getCookiePlayerId()}`,
-          {
-            body: {
-              token: token
-            }
+        await API.put("4Pic1Cy", `/players/${getCookiePlayerId()}`, {
+          body: {
+            token: token
           }
-        );
+        });
       }
       // else if(player && document.cookie.includes("player_sub")){
 
@@ -245,6 +251,19 @@ export default {
       gapi.signin2.render("google-signin-btn", {
         onsuccess: this.onSignIn
       });
+    });
+
+    const adPromise = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      document.body.appendChild(script);
+      script.onload = resolve;
+      script.onerror = reject;
+      script.async = true;
+      script.src =
+        "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+    });
+    adPromise.then(() => {
+      (adsbygoogle = window.adsbygoogle || []).push({});
     });
   }
 };
