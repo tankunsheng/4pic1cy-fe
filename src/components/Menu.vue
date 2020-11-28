@@ -204,7 +204,7 @@ export default {
         //register account
         await register({ token });
         //update with with existing progress
-        const results = await API.put(
+        await API.put(
           "4Pic1Cy",
           `/players/${document.cookie.substring("player_sub=".length)}`,
           {
