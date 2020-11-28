@@ -1,10 +1,8 @@
 <template >
   <nav class="navbar navbar-expand-lg navbar-light">
     <a class="navbar-brand" href="#">4Pic1Cy</a>
-    <small>Welcome,</small>
-    &nbsp;
-    {{Object.keys(user).length === 0 && user.constructor === Object?
-    "": user.getBasicProfile().getName()}}
+    <small>Welcome</small>
+    {{getGreetingText()}}
   </nav>
   <div id="page-container">
     <div id="content-wrap">
@@ -29,6 +27,17 @@ export default {
     return {
       user
     };
+  },
+  methods: {
+    getGreetingText: function() {
+      {
+        if(Object.keys(this.user).length === 0 && this.user.constructor === Object){
+          return document.cookie.includes("player_sub")? ", Guest": ""
+        }else{
+          return ", " + this.user.getBasicProfile().getName()
+        }
+      }
+    }
   }
 };
 </script>
@@ -61,10 +70,9 @@ footer {
   width: 100%;
   height: 5rem;
   font-size: 1rem;
-  
 }
 #footer a {
-  color: white
+  color: white;
 }
 .navbar a {
   color: white;

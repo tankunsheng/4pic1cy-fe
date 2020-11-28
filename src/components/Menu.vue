@@ -56,7 +56,7 @@
     <div id="highscores" class="menu-sections">
       <img id="trophy-logo" src="../assets/trophy.png" />
       <h1>Highscores</h1>
-
+      {{signInReminder()}}
       <div class="offset-md-4 col-md-4">
         <DataTable
           paginatorTemplate="CurrentPageReport  PrevPageLink PageLinks NextPageLink  RowsPerPageDropdown"
@@ -91,6 +91,7 @@ import userUsers from "../state/users.js";
 import { API } from "aws-amplify";
 import { checkObjectEmpty } from "../util/util.js";
 import { v4 as uuidv4 } from "uuid";
+import moment from "moment";
 function register(token) {
   return API.put("4Pic1Cy", "/players", {
     body: token
@@ -122,16 +123,30 @@ export default {
     };
   },
   methods: {
+    signInReminder: function() {
+      if (
+        checkObjectEmpty(this.user) &&
+        document.cookie.includes("player_sub")
+      ) {
+        return "You are assigned to a temporary userid. Sign in to link your highscore.";
+      } else {
+        return "";
+      }
+    },
     rowClass: function(data) {
       if (
-        Object.keys(this.user).length === 0 &&
-        this.user.constructor === Object
+        !checkObjectEmpty(this.user) &&
+        this.user.getBasicProfile().getName() === data.name
       ) {
-        return;
+        return "highlight-row";
+      } else if (
+        checkObjectEmpty(this.user) &&
+        document.cookie.substring("player_sub=".length) === data.name
+      ) {
+        return "highlight-row";
+      } else {
+        return "normal-row";
       }
-      return this.user.getBasicProfile().getName() === data.name
-        ? "highlight-row"
-        : "normal-row";
     },
     renderTop3Icons: function(pos) {
       if (pos > 2) {
@@ -153,7 +168,8 @@ export default {
         !document.cookie.includes("player_sub")
       ) {
         const tempId = uuidv4();
-        document.cookie = `player_sub=${tempId}; expires=Thu, 18 Dec 2100 12:00:00 UTC`;
+        const expiryDate = moment().add(30, "days");
+        document.cookie = `player_sub=${tempId}; expires=${expiryDate.toString()}`;
         await register({ tempId });
       }
 
@@ -179,17 +195,15 @@ export default {
       //https://stackoverflow.com/questions/53622075/what-prevents-another-app-from-stealing-my-google-oauth-client-id
       // The ID token you need to pass to your backend:
       const token = googleUser.getAuthResponse().id_token;
-      console.log(token);
+      // console.log(token);
       //check user exists before call
       const player = await getPlayer(token);
       if (!player && !document.cookie.includes("player_sub")) {
         register({ token });
       } else if (!player && document.cookie.includes("player_sub")) {
-        console.log("registering account");
         //register account
         await register({ token });
         //update with with existing progress
-        console.log("updating account");
         const results = await API.put(
           "4Pic1Cy",
           `/players/${document.cookie.substring("player_sub=".length)}`,
@@ -199,8 +213,10 @@ export default {
             }
           }
         );
-        console.log(results);
       }
+      // else if(player && document.cookie.includes("player_sub")){
+
+      // }
 
       this.setUser(googleUser, googleUser.getAuthResponse());
     }
