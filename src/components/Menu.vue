@@ -207,7 +207,7 @@ export default {
         //update with with existing progress
         await API.put(
           "4Pic1Cy",
-          `/players/${document.cookie.substring("player_sub=".length)}`,
+          `/players/${getCookiePlayerId()}`,
           {
             body: {
               token: token
