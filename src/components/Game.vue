@@ -121,7 +121,7 @@
 import userUsers from "../state/users.js";
 import { API } from "aws-amplify";
 import { s3 } from "../config.js";
-
+import { getCookiePlayerId } from "../util/util.js";
 export default {
   data() {
     const { user, authInfo } = userUsers();
@@ -157,8 +157,7 @@ export default {
     getHint: async function(createHintIfNotExist) {
       const hint = await API.get(
         "4Pic1Cy",
-        `/players/${this.authInfo.id_token ||
-          this.getCookiePlayerId()}/${
+        `/players/${this.authInfo.id_token || getCookiePlayerId()}/${
           this.pictures.qId
         }/${createHintIfNotExist}`
       );
@@ -179,18 +178,8 @@ export default {
       this.authInfo.id_token
         ? this.getQns({ token: this.authInfo.id_token })
         : this.getQns({
-            tempId: this.getCookiePlayerId()
+            tempId: getCookiePlayerId()
           });
-    },
-    getCookiePlayerId: function() {
-      const keyLength = 36;
-      const indexToStart = document.cookie.indexOf("player_sub=") + "player_sub=".length;
-      const playerId = document.cookie.substring(
-        indexToStart,
-        indexToStart + keyLength
-      );
-      console.log(playerId);
-      return playerId;
     },
     getQns: async function(playerId) {
       this.imageloading = true;
@@ -221,7 +210,7 @@ export default {
       };
       this.authInfo.id_token
         ? (payload["token"] = this.authInfo.id_token)
-        : (payload["tempId"] = this.getCookiePlayerId())
+        : (payload["tempId"] = getCookiePlayerId());
       const resp = await API.post("4Pic1Cy", "/questions", {
         body: payload
       });

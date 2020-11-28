@@ -89,9 +89,10 @@
 import FeedBack from "./FeedBack.vue";
 import userUsers from "../state/users.js";
 import { API } from "aws-amplify";
-import { checkObjectEmpty } from "../util/util.js";
+import { checkObjectEmpty, getCookiePlayerId } from "../util/util.js";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
+
 function register(token) {
   return API.put("4Pic1Cy", "/players", {
     body: token
@@ -141,7 +142,7 @@ export default {
         return "highlight-row";
       } else if (
         checkObjectEmpty(this.user) &&
-        document.cookie.substring("player_sub=".length) === data.name
+        getCookiePlayerId() === data.name
       ) {
         return "highlight-row";
       } else {
